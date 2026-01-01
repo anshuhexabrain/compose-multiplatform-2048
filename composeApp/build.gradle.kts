@@ -84,6 +84,9 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.squareup.okio)
             implementation(libs.xxfast.kstore.file)
+            // JNA for Bright Data SDK integration (Windows native DLL)
+            implementation("net.java.dev.jna:jna:5.14.0")
+            implementation("net.java.dev.jna:jna-platform:5.14.0")
         }
 
         iosMain.dependencies {
@@ -135,6 +138,12 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.alexjlockwood.twentyfortyeight"
             packageVersion = "1.0.0"
+
+            // Include Bright Data SDK files for Windows
+            windows {
+                // Include DLLs and config in the application package
+                includeAllModules = true
+            }
         }
     }
 }
