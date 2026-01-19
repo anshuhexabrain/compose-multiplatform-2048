@@ -10,6 +10,7 @@ class WindowsBrightDataSdk : BrightDataSdk {
 
     private val nativeLib: BrightDataSdkNative?
     private var choiceChangeCallback: ((ConsentChoice) -> Unit)? = null
+    private var dialogClosedCallback: (() -> Unit)? = null
     private var isInitialized = false
 
     init {
@@ -33,9 +34,10 @@ class WindowsBrightDataSdk : BrightDataSdk {
         }
     }
 
-    private val dialogClosedCallback = object : BrightDataSdkNative.DialogClosedCallback {
+    private val nativeDialogClosedCallback = object : BrightDataSdkNative.DialogClosedCallback {
         override fun invoke() {
             println("Bright Data: Consent dialog closed")
+            dialogClosedCallback?.invoke()
         }
     }
 
@@ -75,13 +77,13 @@ class WindowsBrightDataSdk : BrightDataSdk {
             // Set to true (1) for testing without real app_id
             nativeLib.brd_sdk_set_test_mode_c(0)
 
-            // Don't skip consent on first run - let SDK show dialog automatically
-            nativeLib.brd_sdk_set_skip_consent_on_init_c(0)
+            // Skip consent on init - we'll show it manually from the landing screen
+            nativeLib.brd_sdk_set_skip_consent_on_init_c(1)
 
             // Set up callbacks
             nativeLib.brd_sdk_set_choice_change_cb_c(nativeChoiceChangeCallback)
             nativeLib.brd_sdk_set_on_dialog_shown_cb_c(dialogShownCallback)
-            nativeLib.brd_sdk_set_on_dialog_closed_cb_c(dialogClosedCallback)
+            nativeLib.brd_sdk_set_on_dialog_closed_cb_c(nativeDialogClosedCallback)
 
             // Initialize the SDK
             nativeLib.brd_sdk_init_c()
@@ -144,6 +146,11 @@ class WindowsBrightDataSdk : BrightDataSdk {
     override fun setChoiceChangeCallback(callback: (ConsentChoice) -> Unit) {
         choiceChangeCallback = callback
         println("Bright Data: Choice change callback registered")
+    }
+
+    override fun setDialogClosedCallback(callback: () -> Unit) {
+        dialogClosedCallback = callback
+        println("Bright Data: Dialog closed callback registered")
     }
 
     override fun close() {

@@ -25,5 +25,6 @@ private class NoOpBrightDataSdk : BrightDataSdk {
     override fun optOut() {}
     override fun getConsentChoice(): ConsentChoice = ConsentChoice.NONE
     override fun setChoiceChangeCallback(callback: (ConsentChoice) -> Unit) {}
+    override fun setDialogClosedCallback(callback: () -> Unit) {}
     override fun close() {}
 }

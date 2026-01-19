@@ -1,6 +1,5 @@
 package com.alexjlockwood.twentyfortyeight
 
-import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.alexjlockwood.twentyfortyeight.brightsdk.createBrightDataSdk
@@ -22,11 +21,6 @@ fun main() = application {
     if (brightSdk.isSupported()) {
         println("Bright Data SDK is supported on this platform")
         brightSdk.initialize()
-
-        // Set up callback to track user consent changes
-        brightSdk.setChoiceChangeCallback { choice ->
-            println("Bright Data: User consent changed to: $choice")
-        }
     } else {
         println("Bright Data SDK is not supported on this platform (expected on non-Windows)")
     }
@@ -43,36 +37,9 @@ fun main() = application {
         },
         title = "2048",
     ) {
-        // Add menu bar for Bright Data settings (Windows only)
-        if (brightSdk.isSupported()) {
-            MenuBar {
-                Menu("Help") {
-                    Item(
-                        "Support This App",
-                        onClick = {
-                            when (brightSdk.getConsentChoice()) {
-                                com.alexjlockwood.twentyfortyeight.brightsdk.ConsentChoice.NONE -> {
-                                    brightSdk.showConsentDialog()
-                                }
-                                else -> {
-                                    brightSdk.showConsentDialog()
-                                }
-                            }
-                        }
-                    )
-                    Separator()
-                    Item(
-                        "About Bright Data",
-                        onClick = {
-                            val currentChoice = brightSdk.getConsentChoice()
-                            println("Current Bright Data status: $currentChoice")
-                            println("Click 'Support This App' to view or change your settings")
-                        }
-                    )
-                }
-            }
-        }
-
-        App(repository = GameRepository(store))
+        App(
+            repository = GameRepository(store),
+            brightDataSdk = brightSdk
+        )
     }
 }

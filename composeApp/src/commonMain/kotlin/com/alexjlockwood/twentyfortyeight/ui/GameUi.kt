@@ -1,9 +1,11 @@
 package com.alexjlockwood.twentyfortyeight.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -32,9 +34,13 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alexjlockwood.twentyfortyeight.domain.Direction
 import com.alexjlockwood.twentyfortyeight.domain.GridTileMovement
+import compose_multiplatform_2048.composeapp.generated.resources.Res
+import compose_multiplatform_2048.composeapp.generated.resources.game_logo
+import org.jetbrains.compose.resources.painterResource
 import kotlin.math.PI
 import kotlin.math.atan2
 
@@ -50,6 +56,7 @@ fun GameUi(
     isGameOver: Boolean,
     onNewGameRequest: () -> Unit,
     onSwipeListener: (direction: Direction) -> Unit,
+    onQuitToLanding: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -81,7 +88,13 @@ fun GameUi(
             .focusRequester(focusRequester)
             .focusable(),
         topBar = {
-            val title = @Composable { Text("2048") }
+            val title = @Composable {
+                Image(
+                    painter = painterResource(Res.drawable.game_logo),
+                    contentDescription = "2048 Logo",
+                    modifier = Modifier.size(36.dp)
+                )
+            }
             val actions = @Composable {
                 IconButton(onClick = { shouldShowNewGameDialog = true }) {
                     Icon(Icons.Filled.Add, contentDescription = null)
@@ -146,6 +159,7 @@ fun GameUi(
             message = "Start a new game?",
             onConfirmListener = { onNewGameRequest() },
             onDismissListener = null,
+            onQuitListener = { onQuitToLanding() }
         )
     } else if (shouldShowNewGameDialog) {
         GameDialog(
@@ -156,6 +170,10 @@ fun GameUi(
                 shouldShowNewGameDialog = false
             },
             onDismissListener = { shouldShowNewGameDialog = false },
+            onQuitListener = {
+                shouldShowNewGameDialog = false
+                onQuitToLanding()
+            }
         )
     }
 }

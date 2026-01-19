@@ -1,6 +1,7 @@
 package com.alexjlockwood.twentyfortyeight
 
 import androidx.compose.ui.window.ComposeUIViewController
+import com.alexjlockwood.twentyfortyeight.brightsdk.createBrightDataSdk
 import com.alexjlockwood.twentyfortyeight.domain.UserData
 import com.alexjlockwood.twentyfortyeight.repository.GameRepository
 import com.alexjlockwood.twentyfortyeight.repository.USER_DATA_FILE_NAME
@@ -14,5 +15,9 @@ import platform.Foundation.NSFileManager
 fun MainViewController() = ComposeUIViewController {
     val filesDir = NSFileManager.defaultManager.DocumentDirectory?.relativePath!!.toPath()
     val store = storeOf(file = filesDir.resolve(USER_DATA_FILE_NAME), default = UserData.EMPTY_USER_DATA)
-    App(repository = GameRepository(store))
+    val brightSdk = createBrightDataSdk()
+    App(
+        repository = GameRepository(store),
+        brightDataSdk = brightSdk
+    )
 }

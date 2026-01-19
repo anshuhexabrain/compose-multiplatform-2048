@@ -43,6 +43,12 @@ interface BrightDataSdk {
     fun setChoiceChangeCallback(callback: (ConsentChoice) -> Unit)
 
     /**
+     * Set a callback to be notified when the consent dialog is closed.
+     * @param callback Function to be called when dialog closes
+     */
+    fun setDialogClosedCallback(callback: () -> Unit)
+
+    /**
      * Clean up and close the SDK.
      * Should be called when the application is shutting down.
      */
