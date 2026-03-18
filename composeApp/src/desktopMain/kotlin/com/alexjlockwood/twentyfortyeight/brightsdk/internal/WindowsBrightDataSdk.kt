@@ -2,12 +2,16 @@ package com.alexjlockwood.twentyfortyeight.brightsdk.internal
 
 import com.alexjlockwood.twentyfortyeight.brightsdk.BrightDataSdk
 import com.alexjlockwood.twentyfortyeight.brightsdk.ConsentChoice
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import java.io.File
 
 /**
  * Windows implementation of Bright Data SDK using JNA to call native DLL functions.
  */
 class WindowsBrightDataSdk : BrightDataSdk {
 
+    private val sdkDir: File?
     private val nativeLib: BrightDataSdkNative?
     private var choiceChangeCallback: ((ConsentChoice) -> Unit)? = null
     private var dialogClosedCallback: (() -> Unit)? = null
@@ -15,14 +19,12 @@ class WindowsBrightDataSdk : BrightDataSdk {
 
     init {
         println("Bright Data: Initializing Windows SDK...")
-        // Extract SDK resources (DLLs) from JAR to filesystem
-        val sdkDir = SdkResourceLoader.extractSdkResources()
+        sdkDir = SdkResourceLoader.extractSdkResources()
         if (sdkDir == null) {
-            println("Bright Data: ✗ Failed to extract SDK resources")
+            println("Bright Data: Failed to extract SDK resources")
             nativeLib = null
         } else {
-            println("Bright Data: ✓ SDK resources extracted successfully")
-            // Now load the native library
+            println("Bright Data: SDK resources extracted successfully")
             nativeLib = BrightDataSdkNative.load(sdkDir)
         }
     }
@@ -74,19 +76,14 @@ class WindowsBrightDataSdk : BrightDataSdk {
         try {
             println("Bright Data: Initializing SDK...")
 
-            // Set app configuration
-            // TODO: Replace with your actual app_id from Bright Data when you receive it
-            nativeLib.brd_sdk_set_appid_c("win_hexabrain_systems_pvt_ltd.2048_game")
-            nativeLib.brd_sdk_set_app_name_c("2048 Hexa Game")
-            nativeLib.brd_sdk_set_benefit_c("Play unlimited games for free")
+            val config = loadConfig()
 
-            // Set test mode to false for production
-            // Set to true (1) for testing without real app_id
-            // IMPORTANT: Set to 0 only when you have a valid App ID from Bright Data
-            nativeLib.brd_sdk_set_test_mode_c(1)
-
-            // Skip consent on init - we'll show it manually from the landing screen
-            nativeLib.brd_sdk_set_skip_consent_on_init_c(1)
+            // Keep Bright SDK settings in JSON so production values can be changed without code edits.
+            nativeLib.brd_sdk_set_appid_c(config.appId)
+            nativeLib.brd_sdk_set_app_name_c(config.appName)
+            nativeLib.brd_sdk_set_benefit_c(config.benefit)
+            nativeLib.brd_sdk_set_test_mode_c(if (config.testMode) 1 else 0)
+            nativeLib.brd_sdk_set_skip_consent_on_init_c(if (config.skipConsentOnInit) 1 else 0)
 
             // Set up callbacks
             nativeLib.brd_sdk_set_choice_change_cb_c(nativeChoiceChangeCallback)
@@ -108,13 +105,13 @@ class WindowsBrightDataSdk : BrightDataSdk {
 
     override fun showConsentDialog() {
         if (nativeLib == null) {
-            println("Bright Data: ✗ Cannot show dialog - SDK not available (DLL failed to load)")
+            println("Bright Data: Cannot show dialog - SDK not available (DLL failed to load)")
             println("Bright Data: Please check the error messages above for troubleshooting steps")
             return
         }
 
         if (!isInitialized) {
-            println("Bright Data: ✗ Cannot show dialog - SDK not initialized. Call initialize() first")
+            println("Bright Data: Cannot show dialog - SDK not initialized. Call initialize() first")
             return
         }
 
@@ -122,7 +119,7 @@ class WindowsBrightDataSdk : BrightDataSdk {
             println("Bright Data: Showing consent dialog...")
             nativeLib.brd_sdk_show_consent_c()
         } catch (e: Exception) {
-            println("Bright Data: ✗ Error showing consent dialog: ${e.message}")
+            println("Bright Data: Error showing consent dialog: ${e.message}")
             e.printStackTrace()
         }
     }
@@ -183,6 +180,22 @@ class WindowsBrightDataSdk : BrightDataSdk {
         }
     }
 
+    private fun loadConfig(): BrightDataConfig {
+        val configFile = sdkDir?.resolve("brd_config.json")
+        if (configFile == null || !configFile.exists()) {
+            println("Bright Data: Config file not found, using fallback defaults")
+            return BrightDataConfig()
+        }
+
+        return try {
+            json.decodeFromString<BrightDataConfig>(configFile.readText())
+        } catch (e: Exception) {
+            println("Bright Data: Failed to parse brd_config.json: ${e.message}")
+            println("Bright Data: Falling back to built-in defaults")
+            BrightDataConfig()
+        }
+    }
+
     /**
      * Map native choice integer to ConsentChoice enum.
      */
@@ -195,6 +208,21 @@ class WindowsBrightDataSdk : BrightDataSdk {
                 println("Bright Data: Unknown choice value: $choice")
                 ConsentChoice.NONE
             }
+        }
+    }
+
+    @Serializable
+    private data class BrightDataConfig(
+        val appId: String = "win_hexabrain_systems_pvt_ltd.2048_game",
+        val appName: String = "2048 Hexa Game",
+        val benefit: String = "Play unlimited games for free",
+        val testMode: Boolean = true,
+        val skipConsentOnInit: Boolean = true
+    )
+
+    private companion object {
+        val json = Json {
+            ignoreUnknownKeys = true
         }
     }
 }
