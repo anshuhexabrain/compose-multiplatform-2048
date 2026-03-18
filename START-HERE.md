@@ -81,7 +81,7 @@
 - Proper name in all Windows locations
 
 ### 4. Bright Data SDK - INTEGRATED! ✅
-- Version 1.603.799 (latest)
+- Version 1.614.174 (latest)
 - Test mode enabled
 - Consent dialog working
 - Error handling implemented
@@ -104,7 +104,7 @@ Name: 2048 Hexa Game
 Version: 1.0.1
 Size: 52 MB (with runtime)
 Runtime: Java 17 (bundled)
-SDK: Bright Data v1.603.799
+SDK: Bright Data v1.614.174
 Icon: Custom (42 KB)
 Format: Portable + Installer
 ```

@@ -166,7 +166,7 @@ compose.desktop {
 
                 // Windows installer properties
                 menuGroup = "Hexa Games"
-                upgradeUuid = "2048-HEXA-GAME-UUID-HEXABRAIN"
+                upgradeUuid = "6dcd5c1c-cb3f-428d-8a34-2f5abdd190cc"
 
                 // Windows icon (PNG file - will be converted to ICO automatically)
                 iconFile.set(project.file("src/desktopMain/resources/icons/app-icon.png"))
