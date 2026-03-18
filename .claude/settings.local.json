@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd.exe /c \"dir /B D:\\\\Hexabrain\\\\Other\\\\compose-multiplatform-2048\\\\2048-Hexa-Game-Setup.*\")",
+      "Bash(explorer.exe \"D:\\\\Hexabrain\\\\Other\\\\compose-multiplatform-2048\")",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(Select-String -Pattern \"BUILD|Task|Creating\")",
+      "Bash(Select-Object -Last 30)",
+      "Bash(cmd.exe /c \"gradlew.bat :composeApp:packageExe\")",
+      "Bash(java:*)",
+      "Bash(where:*)",
+      "Bash(cmd.exe /c \"BUILD_INSTALLER_MANUAL.bat\")",
+      "Bash(powershell -ExecutionPolicy Bypass -File create-installer.ps1)",
+      "Bash(powershell -ExecutionPolicy Bypass -File create-installer-fixed.ps1)",
+      "Bash(powershell -ExecutionPolicy Bypass -File create-installer-with-runtime.ps1)",
+      "Bash(powershell -ExecutionPolicy Bypass -File:*)",
+      "Bash(where.exe:*)",
+      "Bash(\"C:\\\\Program Files\\\\Java\\\\jdk-17\\\\bin\\\\jpackage.exe\" --help)",
+      "Bash($env:PATH = \"D:\\\\Hexabrain\\\\Other\\\\compose-multiplatform-2048\\\\build\\\\wix311;$env:PATH\")"
+    ]
+  }
+}

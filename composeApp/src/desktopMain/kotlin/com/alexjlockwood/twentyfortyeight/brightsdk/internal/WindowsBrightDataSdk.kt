@@ -14,10 +14,17 @@ class WindowsBrightDataSdk : BrightDataSdk {
     private var isInitialized = false
 
     init {
+        println("Bright Data: Initializing Windows SDK...")
         // Extract SDK resources (DLLs) from JAR to filesystem
-        SdkResourceLoader.extractSdkResources()
-        // Now load the native library
-        nativeLib = BrightDataSdkNative.load()
+        val sdkDir = SdkResourceLoader.extractSdkResources()
+        if (sdkDir == null) {
+            println("Bright Data: ✗ Failed to extract SDK resources")
+            nativeLib = null
+        } else {
+            println("Bright Data: ✓ SDK resources extracted successfully")
+            // Now load the native library
+            nativeLib = BrightDataSdkNative.load(sdkDir)
+        }
     }
 
     // JNA callbacks that bridge to Kotlin callbacks
@@ -70,12 +77,13 @@ class WindowsBrightDataSdk : BrightDataSdk {
             // Set app configuration
             // TODO: Replace with your actual app_id from Bright Data when you receive it
             nativeLib.brd_sdk_set_appid_c("win_hexabrain_systems_pvt_ltd.2048_game")
-            nativeLib.brd_sdk_set_app_name_c("2048 Game")
+            nativeLib.brd_sdk_set_app_name_c("2048 Hexa Game")
             nativeLib.brd_sdk_set_benefit_c("Play unlimited games for free")
 
             // Set test mode to false for production
             // Set to true (1) for testing without real app_id
-            nativeLib.brd_sdk_set_test_mode_c(0)
+            // IMPORTANT: Set to 0 only when you have a valid App ID from Bright Data
+            nativeLib.brd_sdk_set_test_mode_c(1)
 
             // Skip consent on init - we'll show it manually from the landing screen
             nativeLib.brd_sdk_set_skip_consent_on_init_c(1)
@@ -100,7 +108,13 @@ class WindowsBrightDataSdk : BrightDataSdk {
 
     override fun showConsentDialog() {
         if (nativeLib == null) {
-            println("Bright Data: Cannot show dialog - SDK not available")
+            println("Bright Data: ✗ Cannot show dialog - SDK not available (DLL failed to load)")
+            println("Bright Data: Please check the error messages above for troubleshooting steps")
+            return
+        }
+
+        if (!isInitialized) {
+            println("Bright Data: ✗ Cannot show dialog - SDK not initialized. Call initialize() first")
             return
         }
 
@@ -108,7 +122,7 @@ class WindowsBrightDataSdk : BrightDataSdk {
             println("Bright Data: Showing consent dialog...")
             nativeLib.brd_sdk_show_consent_c()
         } catch (e: Exception) {
-            println("Bright Data: Error showing consent dialog: ${e.message}")
+            println("Bright Data: ✗ Error showing consent dialog: ${e.message}")
             e.printStackTrace()
         }
     }

@@ -13,6 +13,8 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(17)
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
@@ -134,16 +136,67 @@ compose.desktop {
     application {
         mainClass = "com.alexjlockwood.twentyfortyeight.MainKt"
 
+        // Ensure we use the toolchain JDK which has jpackage
+        val javaHomePath = project.extensions.getByType<JavaToolchainService>()
+            .launcherFor {
+                languageVersion.set(JavaLanguageVersion.of(17))
+            }
+            .get()
+            .metadata
+            .installationPath
+            .asFile
+            .absolutePath
+
+        javaHome = javaHomePath
+
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.alexjlockwood.twentyfortyeight"
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Exe)
+            packageName = "2048HexaGame"
             packageVersion = "1.0.0"
 
-            // Include Bright Data SDK files for Windows
+            // Display name and description
+            description = "2048 Hexa Game - Slide to combine numbers and reach 2048!"
+            copyright = "© 2026 Hexabrain Systems. All rights reserved."
+            vendor = "Hexabrain Systems"
+
+            // Windows-specific configuration
             windows {
                 // Include DLLs and config in the application package
                 includeAllModules = true
+
+                // Windows installer properties
+                menuGroup = "Hexa Games"
+                upgradeUuid = "2048-HEXA-GAME-UUID-HEXABRAIN"
+
+                // Windows icon (PNG file - will be converted to ICO automatically)
+                iconFile.set(project.file("src/desktopMain/resources/icons/app-icon.png"))
+
+                // Create desktop shortcut
+                shortcut = true
+                dirChooser = true
+                menu = true
+                perUserInstall = false
             }
+
+            // Linux configuration
+            linux {
+                packageName = "2048-hexa-game"
+                debMaintainer = "support@hexabrain.com"
+                menuGroup = "Games"
+                appCategory = "Game"
+                iconFile.set(project.file("src/desktopMain/resources/icons/app-icon.png"))
+            }
+
+            // macOS configuration
+            macOS {
+                bundleID = "com.hexabrain.2048hexagame"
+                appCategory = "public.app-category.games"
+                iconFile.set(project.file("src/desktopMain/resources/icons/app-icon.png"))
+            }
+        }
+
+        buildTypes.release.proguard {
+            isEnabled.set(false)
         }
     }
 }

@@ -118,6 +118,13 @@ fun App(
                 AppScreen.Landing -> {
                     LandingScreen(
                         onPlayClicked = {
+                            // Check if SDK is supported and initialized
+                            if (!brightDataSdk.isSupported()) {
+                                println("Bright Data: SDK not supported, allowing play without consent")
+                                currentScreen = AppScreen.Game
+                                return@LandingScreen
+                            }
+
                             // Check if user has already opted in
                             val currentChoice = brightDataSdk.getConsentChoice()
                             println("Bright Data: Play clicked - current choice: $currentChoice")

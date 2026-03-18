@@ -1,0 +1,11 @@
+2048 Hexa Game
+Copyright (c) 2026 Hexabrain Systems
+
+Permission is hereby granted to use this software for personal and commercial purposes.
+
+This software includes:
+- Compose Multiplatform framework
+- Kotlin programming language
+- Bright Data SDK v1.603.799
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.

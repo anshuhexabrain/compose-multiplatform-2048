@@ -35,7 +35,7 @@ fun main() = application {
             brightSdk.close()
             exitApplication()
         },
-        title = "2048",
+        title = "2048 Hexa Game",
     ) {
         App(
             repository = GameRepository(store),

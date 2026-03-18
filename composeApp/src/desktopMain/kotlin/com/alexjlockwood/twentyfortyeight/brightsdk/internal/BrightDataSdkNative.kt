@@ -78,14 +78,37 @@ interface BrightDataSdkNative : StdCallLibrary {
          * Load the native library.
          * Tries to load from system path or bundled resources.
          */
-        fun load(): BrightDataSdkNative? {
+        fun load(sdkDir: java.io.File?): BrightDataSdkNative? {
             return try {
+                println("Bright Data: Attempting to load lum_sdk64.dll...")
+                println("Bright Data: jna.library.path = ${System.getProperty("jna.library.path")}")
+
+                if (sdkDir != null) {
+                    val dllPath = java.io.File(sdkDir, "lum_sdk64.dll")
+                    println("Bright Data: DLL expected at: ${dllPath.absolutePath}")
+                    println("Bright Data: DLL exists: ${dllPath.exists()}")
+                    if (dllPath.exists()) {
+                        println("Bright Data: DLL size: ${dllPath.length()} bytes")
+                    }
+                }
+
                 // Try loading lum_sdk64.dll
-                Native.load("lum_sdk64", BrightDataSdkNative::class.java) as BrightDataSdkNative
+                val lib = Native.load("lum_sdk64", BrightDataSdkNative::class.java) as BrightDataSdkNative
+                println("Bright Data: ✓ Successfully loaded lum_sdk64.dll")
+                lib
             } catch (e: UnsatisfiedLinkError) {
-                println("Warning: Could not load Bright Data SDK native library (lum_sdk64.dll)")
-                println("Error: ${e.message}")
-                println("Make sure the SDK DLLs are in the application directory or system PATH")
+                println("Bright Data: ✗ ERROR - Could not load Bright Data SDK native library (lum_sdk64.dll)")
+                println("Bright Data: Error message: ${e.message}")
+                println("Bright Data: Stack trace:")
+                e.printStackTrace()
+                println("Bright Data: Troubleshooting:")
+                println("  1. Check if lum_sdk64.dll was extracted successfully")
+                println("  2. Ensure Visual C++ Redistributable is installed")
+                println("  3. Try running as administrator")
+                null
+            } catch (e: Exception) {
+                println("Bright Data: ✗ Unexpected error loading SDK: ${e.message}")
+                e.printStackTrace()
                 null
             }
         }
