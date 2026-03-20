@@ -120,10 +120,10 @@ Write-Host ""
 
 $jpackageArgs = @(
     "--type", "exe",
-    "--name", "2048HexaGame",
+    "--name", "2048 Hexa Game - Merge, Match, Master the Puzzle",
     "--app-version", "1.0.1",
     "--vendor", "Hexabrain Systems",
-    "--description", "2048 Hexa Game - Slide to combine numbers and reach 2048!",
+    "--description", "2048 Hexa Game - Merge, Match, Master the Puzzle",
     "--copyright", "Copyright 2026 Hexabrain Systems",
     "--input", "$projectRoot\composeApp\build\libs",
     "--main-jar", "composeApp-desktop.jar",
@@ -194,3 +194,6 @@ Write-Host "4. Launch app - should work!" -ForegroundColor Green
 Write-Host ""
 Write-Host "NEW GUID ensures Windows treats this as BRAND NEW app!" -ForegroundColor Green
 Write-Host ""
+
+
+

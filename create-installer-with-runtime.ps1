@@ -1,5 +1,5 @@
 Write-Host "========================================"
-Write-Host "  Building 2048 Hexa Game Installer"
+Write-Host "  Building 2048 Hexa Game - Merge, Match, Master the Puzzle Installer"
 Write-Host "  With Bundled Java Runtime"
 Write-Host "========================================"
 Write-Host ""
@@ -61,10 +61,10 @@ Write-Host ""
 # Create EXE installer with runtime
 & $jpackage `
   --type exe `
-  --name "2048HexaGame" `
+  --name "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --app-version "1.0.0" `
   --vendor "Hexabrain Systems" `
-  --description "2048 Hexa Game - Slide to combine numbers and reach 2048!" `
+  --description "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --copyright "Copyright 2026 Hexabrain Systems" `
   --icon $iconFile `
   --input "$projectRoot\composeApp\build\libs" `
@@ -92,10 +92,10 @@ Write-Host ""
 # Create MSI installer with runtime
 & $jpackage `
   --type msi `
-  --name "2048HexaGame" `
+  --name "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --app-version "1.0.0" `
   --vendor "Hexabrain Systems" `
-  --description "2048 Hexa Game - Slide to combine numbers and reach 2048!" `
+  --description "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --copyright "Copyright 2026 Hexabrain Systems" `
   --icon $iconFile `
   --input "$projectRoot\composeApp\build\libs" `
@@ -127,3 +127,5 @@ Write-Host ""
 Write-Host "These installers include a bundled Java runtime" -ForegroundColor Green
 Write-Host "Users do NOT need Java installed!" -ForegroundColor Green
 Write-Host ""
+
+

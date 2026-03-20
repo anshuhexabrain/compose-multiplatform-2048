@@ -205,6 +205,7 @@ fun SettingsDialog(
     var currentChoice by remember { mutableStateOf(brightDataSdk.getConsentChoice()) }
     var showDisableDialog by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
+    val learnMoreUrl = "https://brightdata.com/sdk/information"
     val isEnabled = currentChoice == ConsentChoice.OPTED_IN
 
     // Update current choice when dialog is shown
@@ -315,7 +316,7 @@ fun SettingsDialog(
                 // Learn More Section
                 OutlinedButton(
                     onClick = {
-                        uriHandler.openUri("https://bright-sdk.com/users#learn-more-about-bright-sdk-web-indexing")
+                        uriHandler.openUri(learnMoreUrl)
                     },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.outlinedButtonColors(
@@ -343,7 +344,20 @@ fun SettingsDialog(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Text(
+                    text = learnMoreUrl,
+                    fontSize = 13.sp,
+                    color = Color(0xFFFFFFFF),
+                    lineHeight = 18.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
 
                 // Close Button
                 Button(
@@ -383,3 +397,6 @@ fun SettingsDialog(
         }
     }
 }
+
+
+

@@ -1,5 +1,5 @@
 Write-Host "========================================"
-Write-Host "  Building 2048 Hexa Game Installers"
+Write-Host "  Building 2048 Hexa Game - Merge, Match, Master the Puzzle Installers"
 Write-Host "========================================"
 Write-Host ""
 
@@ -33,10 +33,10 @@ Write-Host ""
 # Create EXE installer
 & $jpackage `
   --type exe `
-  --name "2048HexaGame" `
+  --name "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --app-version "1.0.0" `
   --vendor "Hexabrain Systems" `
-  --description "2048 Hexa Game - Slide to combine numbers and reach 2048!" `
+  --description "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --copyright "Copyright 2026 Hexabrain Systems" `
   --icon $iconFile `
   --input "$projectRoot\composeApp\build\libs" `
@@ -59,10 +59,10 @@ Write-Host ""
 # Create MSI installer
 & $jpackage `
   --type msi `
-  --name "2048HexaGame" `
+  --name "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --app-version "1.0.0" `
   --vendor "Hexabrain Systems" `
-  --description "2048 Hexa Game - Slide to combine numbers and reach 2048!" `
+  --description "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --copyright "Copyright 2026 Hexabrain Systems" `
   --icon $iconFile `
   --input "$projectRoot\composeApp\build\libs" `
@@ -89,3 +89,5 @@ Get-ChildItem $outputDir | ForEach-Object {
     Write-Host "  $($_.Name) - $size MB" -ForegroundColor Yellow
 }
 Write-Host ""
+
+

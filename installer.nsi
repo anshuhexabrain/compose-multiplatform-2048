@@ -1,18 +1,18 @@
-; 2048 Hexa Game Installer Script for NSIS
+; 2048 Hexa Game - Merge, Match, Master the Puzzle Installer Script for NSIS
 
 !include "MUI2.nsh"
 
 ; App Details
-Name "2048 Hexa Game"
+Name "2048 Hexa Game - Merge, Match, Master the Puzzle"
 OutFile "2048-Hexa-Game-Setup.exe"
 InstallDir "$PROGRAMFILES\2048HexaGame"
 RequestExecutionLevel admin
 
 ; Version Info
 VIProductVersion "1.0.1.0"
-VIAddVersionKey "ProductName" "2048 Hexa Game"
+VIAddVersionKey "ProductName" "2048 Hexa Game - Merge, Match, Master the Puzzle"
 VIAddVersionKey "CompanyName" "Hexabrain Systems"
-VIAddVersionKey "FileDescription" "2048 Hexa Game Installer"
+VIAddVersionKey "FileDescription" "2048 Hexa Game - Merge, Match, Master the Puzzle Installer"
 VIAddVersionKey "FileVersion" "1.0.1"
 VIAddVersionKey "ProductVersion" "1.0.1"
 VIAddVersionKey "LegalCopyright" "Copyright 2026 Hexabrain Systems"
@@ -21,8 +21,8 @@ VIAddVersionKey "LegalCopyright" "Copyright 2026 Hexabrain Systems"
 !define MUI_ICON "composeApp\src\desktopMain\resources\icons\app-icon.ico"
 !define MUI_HEADERIMAGE
 !define MUI_ABORTWARNING
-!define MUI_FINISHPAGE_RUN "$INSTDIR\2048HexaGame.exe"
-!define MUI_FINISHPAGE_RUN_TEXT "Launch 2048 Hexa Game"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\2048 Hexa Game - Merge, Match, Master the Puzzle.exe"
+!define MUI_FINISHPAGE_RUN_TEXT "Launch 2048 Hexa Game - Merge, Match, Master the Puzzle"
 
 ; Pages
 !insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
@@ -45,16 +45,16 @@ Section "Install"
 
     ; Create shortcuts
     CreateDirectory "$SMPROGRAMS\Hexa Games"
-    CreateShortcut "$SMPROGRAMS\Hexa Games\2048 Hexa Game.lnk" "$INSTDIR\2048HexaGame.exe" "" "$INSTDIR\2048HexaGame.ico"
-    CreateShortcut "$DESKTOP\2048 Hexa Game.lnk" "$INSTDIR\2048HexaGame.exe" "" "$INSTDIR\2048HexaGame.ico"
+    CreateShortcut "$SMPROGRAMS\Hexa Games\2048 Hexa Game - Merge, Match, Master the Puzzle.lnk" "$INSTDIR\2048 Hexa Game - Merge, Match, Master the Puzzle.exe" "" "$INSTDIR\2048 Hexa Game - Merge, Match, Master the Puzzle.ico"
+    CreateShortcut "$DESKTOP\2048 Hexa Game - Merge, Match, Master the Puzzle.lnk" "$INSTDIR\2048 Hexa Game - Merge, Match, Master the Puzzle.exe" "" "$INSTDIR\2048 Hexa Game - Merge, Match, Master the Puzzle.ico"
 
     ; Write uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"
 
     ; Registry for Add/Remove Programs
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\2048HexaGame" "DisplayName" "2048 Hexa Game"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\2048HexaGame" "DisplayName" "2048 Hexa Game - Merge, Match, Master the Puzzle"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\2048HexaGame" "UninstallString" "$INSTDIR\Uninstall.exe"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\2048HexaGame" "DisplayIcon" "$INSTDIR\2048HexaGame.ico"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\2048HexaGame" "DisplayIcon" "$INSTDIR\2048 Hexa Game - Merge, Match, Master the Puzzle.ico"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\2048HexaGame" "Publisher" "Hexabrain Systems"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\2048HexaGame" "DisplayVersion" "1.0.1"
     WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\2048HexaGame" "NoModify" 1
@@ -67,10 +67,12 @@ Section "Uninstall"
     RMDir /r "$INSTDIR"
 
     ; Remove shortcuts
-    Delete "$DESKTOP\2048 Hexa Game.lnk"
-    Delete "$SMPROGRAMS\Hexa Games\2048 Hexa Game.lnk"
+    Delete "$DESKTOP\2048 Hexa Game - Merge, Match, Master the Puzzle.lnk"
+    Delete "$SMPROGRAMS\Hexa Games\2048 Hexa Game - Merge, Match, Master the Puzzle.lnk"
     RMDir "$SMPROGRAMS\Hexa Games"
 
     ; Remove registry keys
     DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\2048HexaGame"
 SectionEnd
+
+

@@ -96,10 +96,10 @@ if (!(Test-Path $iconFile)) {
 
 $jpackageArgs = @(
     "--type", "app-image",
-    "--name", "2048HexaGame",
+    "--name", "2048 Hexa Game - Merge, Match, Master the Puzzle",
     "--app-version", "1.0.1",
     "--vendor", "Hexabrain Systems",
-    "--description", "2048 Hexa Game - Slide to combine numbers and reach 2048!",
+    "--description", "2048 Hexa Game - Merge, Match, Master the Puzzle",
     "--copyright", "Copyright 2026 Hexabrain Systems",
     "--input", "$projectRoot\composeApp\build\libs",
     "--main-jar", "composeApp-desktop.jar",
@@ -160,8 +160,10 @@ Write-Host ""
 Write-Host "This is a PORTABLE app (no installation needed!)" -ForegroundColor White
 Write-Host ""
 Write-Host "1. Navigate to: $finalAppDir" -ForegroundColor White
-Write-Host "2. Run: 2048HexaGame.exe" -ForegroundColor White
+Write-Host "2. Run: 2048 Hexa Game - Merge, Match, Master the Puzzle.exe" -ForegroundColor White
 Write-Host "3. App will launch WITHOUT JVM error!" -ForegroundColor Green
 Write-Host ""
 Write-Host "You can copy this entire folder anywhere and it will work!" -ForegroundColor Yellow
 Write-Host ""
+
+

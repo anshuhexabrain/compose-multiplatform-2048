@@ -151,11 +151,11 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Exe)
-            packageName = "2048HexaGame"
+            packageName = "2048 Hexa Game - Merge, Match, Master the Puzzle"
             packageVersion = "1.0.0"
 
             // Display name and description
-            description = "2048 Hexa Game - Slide to combine numbers and reach 2048!"
+            description = "2048 Hexa Game - Merge, Match, Master the Puzzle"
             copyright = "© 2026 Hexabrain Systems. All rights reserved."
             vendor = "Hexabrain Systems"
 
@@ -169,7 +169,7 @@ compose.desktop {
                 upgradeUuid = "6dcd5c1c-cb3f-428d-8a34-2f5abdd190cc"
 
                 // Windows icon (PNG file - will be converted to ICO automatically)
-                iconFile.set(project.file("src/desktopMain/resources/icons/app-icon.png"))
+                iconFile.set(project.file("src/desktopMain/resources/icons/app-icon.ico"))
 
                 // Create desktop shortcut
                 shortcut = true
@@ -200,3 +200,4 @@ compose.desktop {
         }
     }
 }
+

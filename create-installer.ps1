@@ -1,5 +1,5 @@
 Write-Host "========================================"
-Write-Host "  Building 2048 Hexa Game Installer"
+Write-Host "  Building 2048 Hexa Game - Merge, Match, Master the Puzzle Installer"
 Write-Host "========================================"
 Write-Host ""
 
@@ -28,10 +28,10 @@ Write-Host "Creating EXE installer..." -ForegroundColor Green
 # Create EXE installer
 & $jpackage `
   --type exe `
-  --name "2048HexaGame" `
+  --name "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --app-version "1.0.0" `
   --vendor "Hexabrain Systems" `
-  --description "2048 Hexa Game - Slide to combine numbers and reach 2048!" `
+  --description "2048 Hexa Game - Merge, Match, Master the Puzzle" `
   --copyright "Copyright 2026 Hexabrain Systems" `
   --icon $iconFile `
   --input "$projectRoot\composeApp\build\libs" `
@@ -54,3 +54,6 @@ if ($LASTEXITCODE -eq 0) {
 Write-Host ""
 Write-Host "Output directory: $outputDir"
 Write-Host ""
+
+
+

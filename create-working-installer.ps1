@@ -1,5 +1,5 @@
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  Creating WORKING 2048 Hexa Game Installer" -ForegroundColor Cyan
+Write-Host "  Creating WORKING 2048 Hexa Game - Merge, Match, Master the Puzzle Installer" -ForegroundColor Cyan
 Write-Host "  With ALL Dependencies & Runtime" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
@@ -76,10 +76,10 @@ Write-Host ""
 
 $jpackageArgs = @(
     "--type", "exe",
-    "--name", "2048HexaGame",
+    "--name", "2048 Hexa Game - Merge, Match, Master the Puzzle",
     "--app-version", "1.0.0",
     "--vendor", "Hexabrain Systems",
-    "--description", "2048 Hexa Game - Slide to combine numbers and reach 2048!",
+    "--description", "2048 Hexa Game - Merge, Match, Master the Puzzle",
     "--copyright", "Copyright 2026 Hexabrain Systems",
     "--input", "$projectRoot\composeApp\build\libs",
     "--main-jar", "composeApp-desktop.jar",
@@ -138,3 +138,6 @@ Write-Host "2. Run: $finalInstaller" -ForegroundColor White
 Write-Host "3. Launch app from desktop shortcut" -ForegroundColor White
 Write-Host "4. Should work WITHOUT JVM error!" -ForegroundColor Green
 Write-Host ""
+
+
+

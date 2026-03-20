@@ -1,5 +1,5 @@
 Write-Host "========================================" -ForegroundColor Green
-Write-Host "  2048 Hexa Game - Installer" -ForegroundColor Green
+Write-Host "  2048 Hexa Game - Merge, Match, Master the Puzzle Installer" -ForegroundColor Green
 Write-Host "  Version 1.0.1" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
@@ -78,28 +78,28 @@ New-Item -ItemType Directory -Force -Path $startMenuFolder | Out-Null
 $WshShell = New-Object -ComObject WScript.Shell
 
 # Desktop shortcut
-$desktopShortcut = $WshShell.CreateShortcut("$env:USERPROFILE\Desktop\2048 Hexa Game.lnk")
-$desktopShortcut.TargetPath = "$installDir\2048HexaGame.exe"
-$desktopShortcut.IconLocation = "$installDir\2048HexaGame.ico"
+$desktopShortcut = $WshShell.CreateShortcut("$env:USERPROFILE\Desktop\2048 Hexa Game - Merge, Match, Master the Puzzle.lnk")
+$desktopShortcut.TargetPath = "$installDir\2048 Hexa Game - Merge, Match, Master the Puzzle.exe"
+$desktopShortcut.IconLocation = "$installDir\2048 Hexa Game - Merge, Match, Master the Puzzle.ico"
 $desktopShortcut.WorkingDirectory = $installDir
-$desktopShortcut.Description = "2048 Hexa Game - Slide to combine numbers!"
+$desktopShortcut.Description = "2048 Hexa Game - Merge, Match, Master the Puzzle"
 $desktopShortcut.Save()
 
 # Start Menu shortcut
-$startMenuShortcut = $WshShell.CreateShortcut("$startMenuFolder\2048 Hexa Game.lnk")
-$startMenuShortcut.TargetPath = "$installDir\2048HexaGame.exe"
-$startMenuShortcut.IconLocation = "$installDir\2048HexaGame.ico"
+$startMenuShortcut = $WshShell.CreateShortcut("$startMenuFolder\2048 Hexa Game - Merge, Match, Master the Puzzle.lnk")
+$startMenuShortcut.TargetPath = "$installDir\2048 Hexa Game - Merge, Match, Master the Puzzle.exe"
+$startMenuShortcut.IconLocation = "$installDir\2048 Hexa Game - Merge, Match, Master the Puzzle.ico"
 $startMenuShortcut.WorkingDirectory = $installDir
-$startMenuShortcut.Description = "2048 Hexa Game - Slide to combine numbers!"
+$startMenuShortcut.Description = "2048 Hexa Game - Merge, Match, Master the Puzzle"
 $startMenuShortcut.Save()
 
 Write-Host "Adding to Programs & Features..." -ForegroundColor Yellow
 
 # Create uninstaller script
 $uninstallerContent = @"
-Write-Host "Uninstalling 2048 Hexa Game..." -ForegroundColor Yellow
+Write-Host "Uninstalling 2048 Hexa Game - Merge, Match, Master the Puzzle..." -ForegroundColor Yellow
 Remove-Item -Recurse -Force "$installDir" -ErrorAction SilentlyContinue
-Remove-Item -Force "$env:USERPROFILE\Desktop\2048 Hexa Game.lnk" -ErrorAction SilentlyContinue
+Remove-Item -Force "$env:USERPROFILE\Desktop\2048 Hexa Game - Merge, Match, Master the Puzzle.lnk" -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force "$startMenuFolder" -ErrorAction SilentlyContinue
 Remove-Item -Path "$regPath" -Recurse -Force -ErrorAction SilentlyContinue
 Write-Host "Uninstallation complete!" -ForegroundColor Green
@@ -112,12 +112,12 @@ $uninstallerContent | Out-File -FilePath "$installDir\Uninstall.ps1" -Encoding U
 if ($choice -ne "2" -or $isAdmin) {
     try {
         New-Item -Path $regPath -Force | Out-Null
-        Set-ItemProperty -Path $regPath -Name "DisplayName" -Value "2048 Hexa Game"
+        Set-ItemProperty -Path $regPath -Name "DisplayName" -Value "2048 Hexa Game - Merge, Match, Master the Puzzle"
         Set-ItemProperty -Path $regPath -Name "DisplayVersion" -Value "1.0.1"
         Set-ItemProperty -Path $regPath -Name "Publisher" -Value "Hexabrain Systems"
         Set-ItemProperty -Path $regPath -Name "InstallLocation" -Value $installDir
         Set-ItemProperty -Path $regPath -Name "UninstallString" -Value "powershell.exe -ExecutionPolicy Bypass -File `"$installDir\Uninstall.ps1`""
-        Set-ItemProperty -Path $regPath -Name "DisplayIcon" -Value "$installDir\2048HexaGame.ico"
+        Set-ItemProperty -Path $regPath -Name "DisplayIcon" -Value "$installDir\2048 Hexa Game - Merge, Match, Master the Puzzle.ico"
         Set-ItemProperty -Path $regPath -Name "NoModify" -Value 1 -Type DWord
         Set-ItemProperty -Path $regPath -Name "NoRepair" -Value 1 -Type DWord
     } catch {
@@ -134,10 +134,12 @@ Write-Host "App installed to: $installDir" -ForegroundColor Cyan
 Write-Host "Shortcuts created on Desktop and Start Menu" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Launch the app from:" -ForegroundColor Yellow
-Write-Host "  - Desktop shortcut: '2048 Hexa Game'" -ForegroundColor White
-Write-Host "  - Start Menu: Hexa Games > 2048 Hexa Game" -ForegroundColor White
+Write-Host "  - Desktop shortcut: '2048 Hexa Game - Merge, Match, Master the Puzzle'" -ForegroundColor White
+Write-Host "  - Start Menu: Hexa Games > 2048 Hexa Game - Merge, Match, Master the Puzzle" -ForegroundColor White
 Write-Host ""
 $launch = Read-Host "Launch now? (Y/N)"
 if ($launch -eq "Y" -or $launch -eq "y") {
-    Start-Process "$installDir\2048HexaGame.exe"
+    Start-Process "$installDir\2048 Hexa Game - Merge, Match, Master the Puzzle.exe"
 }
+
+

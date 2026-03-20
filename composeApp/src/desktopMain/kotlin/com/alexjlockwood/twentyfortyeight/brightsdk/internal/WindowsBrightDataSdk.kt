@@ -213,8 +213,8 @@ class WindowsBrightDataSdk : BrightDataSdk {
 
     @Serializable
     private data class BrightDataConfig(
-        val appId: String = "win_hexabrain_systems_pvt_ltd.2048_game",
-        val appName: String = "2048 Hexa Game",
+        val appId: String = "win_hexabrain_technologies_pvt_ltd.2048_game_windows",
+        val appName: String = "2048 Hexa Game - Merge, Match, Master the Puzzle",
         val benefit: String = "Play unlimited games for free",
         val testMode: Boolean = true,
         val skipConsentOnInit: Boolean = true
@@ -226,3 +226,4 @@ class WindowsBrightDataSdk : BrightDataSdk {
         }
     }
 }
+

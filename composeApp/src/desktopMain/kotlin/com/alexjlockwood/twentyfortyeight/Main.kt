@@ -35,7 +35,7 @@ fun main() = application {
             brightSdk.close()
             exitApplication()
         },
-        title = "2048 Hexa Game",
+        title = "2048 Hexa Game - Merge, Match, Master the Puzzle",
     ) {
         App(
             repository = GameRepository(store),
@@ -43,3 +43,4 @@ fun main() = application {
         )
     }
 }
+

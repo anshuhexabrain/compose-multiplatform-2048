@@ -120,7 +120,7 @@ fun LandingScreen(
             // Logo
             Image(
                 painter = painterResource(Res.drawable.game_logo),
-                contentDescription = "2048 Game Logo",
+                contentDescription = "2048 Hexa Game - Merge, Match, Master the Puzzle logo",
                 modifier = Modifier
                     .size(180.dp)
                     .padding(bottom = 8.dp)
@@ -204,3 +204,4 @@ fun LandingScreen(
         }
     }
 }
+
