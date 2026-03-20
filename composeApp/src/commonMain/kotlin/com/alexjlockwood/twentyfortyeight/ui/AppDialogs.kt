@@ -1,20 +1,15 @@
 package com.alexjlockwood.twentyfortyeight.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,6 +18,7 @@ import androidx.compose.ui.window.Dialog
 import com.alexjlockwood.twentyfortyeight.brightsdk.BrightDataSdk
 import com.alexjlockwood.twentyfortyeight.brightsdk.ConsentChoice
 import compose_multiplatform_2048.composeapp.generated.resources.Res
+import compose_multiplatform_2048.composeapp.generated.resources.brightdata_qr
 import compose_multiplatform_2048.composeapp.generated.resources.game_logo
 import org.jetbrains.compose.resources.painterResource
 
@@ -49,7 +45,6 @@ fun ConsentRequiredDialog(
                 modifier = Modifier.padding(32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Warning Icon
                 Icon(
                     imageVector = Icons.Default.Warning,
                     contentDescription = null,
@@ -59,7 +54,6 @@ fun ConsentRequiredDialog(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // Title
                 Text(
                     text = "Full Access Required",
                     fontSize = 22.sp,
@@ -69,7 +63,6 @@ fun ConsentRequiredDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Message
                 Text(
                     text = "To enjoy unlimited gameplay, please enable full access. This helps us keep the game free for everyone.",
                     fontSize = 15.sp,
@@ -80,7 +73,6 @@ fun ConsentRequiredDialog(
 
                 Spacer(modifier = Modifier.height(28.dp))
 
-                // Buttons
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -138,7 +130,6 @@ fun DisableAccessDialog(
                 modifier = Modifier.padding(32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Title
                 Text(
                     text = "Disable Full Access?",
                     fontSize = 22.sp,
@@ -148,7 +139,6 @@ fun DisableAccessDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Message
                 Text(
                     text = "Disabling web indexing will bring back limited access. Would you like to keep it enabled for full access?",
                     fontSize = 15.sp,
@@ -159,7 +149,6 @@ fun DisableAccessDialog(
 
                 Spacer(modifier = Modifier.height(28.dp))
 
-                // Buttons
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -204,11 +193,9 @@ fun SettingsDialog(
 ) {
     var currentChoice by remember { mutableStateOf(brightDataSdk.getConsentChoice()) }
     var showDisableDialog by remember { mutableStateOf(false) }
-    val uriHandler = LocalUriHandler.current
-    val learnMoreUrl = "https://brightdata.com/sdk/information"
     val isEnabled = currentChoice == ConsentChoice.OPTED_IN
+    val learnMoreUrl = "https://bright-sdk.com/users#learn-more-about-bright-sdk-web-indexing"
 
-    // Update current choice when dialog is shown
     LaunchedEffect(Unit) {
         currentChoice = brightDataSdk.getConsentChoice()
     }
@@ -228,16 +215,14 @@ fun SettingsDialog(
                 modifier = Modifier.padding(28.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Logo at top
                 Image(
                     painter = painterResource(Res.drawable.game_logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.height(80.dp)
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                // Title
                 Text(
                     text = "Settings",
                     fontSize = 24.sp,
@@ -246,9 +231,8 @@ fun SettingsDialog(
                     modifier = Modifier.align(Alignment.Start)
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
-                // Full Access Toggle Section
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
@@ -258,36 +242,27 @@ fun SettingsDialog(
                     elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                 ) {
                     Column(
-                        modifier = Modifier.padding(20.dp)
+                        modifier = Modifier.padding(15.dp)
                     ) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = "Enable Full Access",
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = Color(0xFFEEEEEE)
-                                )
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text(
-                                    text = if (isEnabled) "Active" else "Disabled",
-                                    fontSize = 13.sp,
-                                    color = if (isEnabled) Color(0xFF4CAF50) else Color(0xFFBBAA99).copy(alpha = 0.5f)
-                                )
-                            }
+                            Text(
+                                text = "Web Indexing",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color(0xFFEEEEEE),
+                                modifier = Modifier.weight(1f)
+                            )
 
                             Switch(
                                 checked = isEnabled,
                                 onCheckedChange = { checked ->
                                     if (checked) {
-                                        // User wants to enable - show consent dialog
                                         brightDataSdk.showConsentDialog()
                                     } else {
-                                        // User wants to disable - show confirmation dialog
                                         showDisableDialog = true
                                     }
                                 },
@@ -300,10 +275,10 @@ fun SettingsDialog(
                             )
                         }
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
 
                         Text(
-                            text = "Enable this to enjoy unlimited gameplay",
+                            text = "When enabled, got access to all features!",
                             fontSize = 13.sp,
                             color = Color(0xFFBBAA99).copy(alpha = 0.7f),
                             lineHeight = 18.sp
@@ -311,55 +286,38 @@ fun SettingsDialog(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(15.dp))
 
-                // Learn More Section
-                OutlinedButton(
-                    onClick = {
-                        uriHandler.openUri(learnMoreUrl)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = Color(0xFFBBAA99)
-                    ),
-                    shape = RoundedCornerShape(12.dp),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFBBAA99).copy(alpha = 0.3f))
-                ) {
-                    Row(
-                        modifier = Modifier.padding(vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Info,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Learn More About Web Indexing",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
+                Text(
+                    text = "Scan the QR Code to Learn More:",
+                    fontSize = 13.sp,
+                    color = Color(0xFFBBAA99).copy(alpha = 0.7f),
+                    lineHeight = 18.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                Image(
+                    painter = painterResource(Res.drawable.brightdata_qr),
+                    contentDescription = "BrightData learn more QR code",
+                    modifier = Modifier.size(140.dp)
+                )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
                     text = learnMoreUrl,
                     fontSize = 13.sp,
-                    color = Color(0xFFFFFFFF),
+                    color = Color(0xFFEEEEEE),
                     lineHeight = 18.sp,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                // Close Button
                 Button(
                     onClick = onDismiss,
                     modifier = Modifier.fillMaxWidth(),
@@ -376,7 +334,6 @@ fun SettingsDialog(
         }
     }
 
-    // Show disable confirmation dialog
     if (showDisableDialog) {
         DisableAccessDialog(
             onKeepEnabled = {
@@ -390,7 +347,6 @@ fun SettingsDialog(
         )
     }
 
-    // Listen for consent changes
     LaunchedEffect(Unit) {
         brightDataSdk.setChoiceChangeCallback { choice ->
             currentChoice = choice
