@@ -27,6 +27,7 @@ fun App(
     var showConsentRequiredDialog by remember { mutableStateOf(false) }
     var showSettingsDialog by remember { mutableStateOf(false) }
     var isWaitingForConsent by remember { mutableStateOf(false) }
+    var hasShownStartupConsent by remember { mutableStateOf(false) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -108,6 +109,24 @@ fun App(
                 }
             }
         }
+    }
+
+    LaunchedEffect(brightDataSdk, hasShownStartupConsent) {
+        if (hasShownStartupConsent || !brightDataSdk.isSupported()) {
+            return@LaunchedEffect
+        }
+
+        val currentChoice = brightDataSdk.getConsentChoice()
+        if (currentChoice == ConsentChoice.OPTED_IN) {
+            hasShownStartupConsent = true
+            return@LaunchedEffect
+        }
+
+        // Give the desktop window and native SDK a moment to settle before opening the consent dialog.
+        kotlinx.coroutines.delay(1500)
+        hasShownStartupConsent = true
+        println("Bright Data: First launch detected, showing consent dialog on app startup")
+        brightDataSdk.showConsentDialog()
     }
 
     val gameViewModel = viewModel { GameViewModel(repository) }
