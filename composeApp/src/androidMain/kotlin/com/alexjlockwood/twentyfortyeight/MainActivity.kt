@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.alexjlockwood.twentyfortyeight.analytics.createAppAnalytics
 import com.alexjlockwood.twentyfortyeight.brightsdk.createBrightDataSdk
 import com.alexjlockwood.twentyfortyeight.domain.UserData
 import com.alexjlockwood.twentyfortyeight.repository.GameRepository
@@ -19,11 +20,13 @@ class MainActivity : ComponentActivity() {
         val filesDir = application.filesDir.absolutePath.toPath()
         val store = storeOf(file = filesDir.resolve(USER_DATA_FILE_NAME), default = UserData.EMPTY_USER_DATA)
         val brightSdk = createBrightDataSdk()
+        val analytics = createAppAnalytics(brightSdk)
 
         setContent {
             App(
                 repository = GameRepository(store),
-                brightDataSdk = brightSdk
+                brightDataSdk = brightSdk,
+                analytics = analytics
             )
         }
     }

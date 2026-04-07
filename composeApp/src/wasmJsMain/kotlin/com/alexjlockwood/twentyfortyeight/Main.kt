@@ -2,6 +2,7 @@ package com.alexjlockwood.twentyfortyeight
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
+import com.alexjlockwood.twentyfortyeight.analytics.createAppAnalytics
 import com.alexjlockwood.twentyfortyeight.brightsdk.createBrightDataSdk
 import com.alexjlockwood.twentyfortyeight.domain.UserData
 import com.alexjlockwood.twentyfortyeight.repository.GameRepository
@@ -12,10 +13,12 @@ import io.github.xxfast.kstore.storage.storeOf
 fun main() {
     val store = storeOf(key = USER_DATA_FILE_NAME, default = UserData.EMPTY_USER_DATA)
     val brightSdk = createBrightDataSdk()
+    val analytics = createAppAnalytics(brightSdk)
     CanvasBasedWindow(canvasElementId = "ComposeTarget") {
         App(
             repository = GameRepository(store),
-            brightDataSdk = brightSdk
+            brightDataSdk = brightSdk,
+            analytics = analytics
         )
     }
 }

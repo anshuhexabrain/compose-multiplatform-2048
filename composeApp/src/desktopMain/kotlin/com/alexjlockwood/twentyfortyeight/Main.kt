@@ -2,6 +2,7 @@ package com.alexjlockwood.twentyfortyeight
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.alexjlockwood.twentyfortyeight.analytics.createAppAnalytics
 import com.alexjlockwood.twentyfortyeight.brightsdk.createBrightDataSdk
 import com.alexjlockwood.twentyfortyeight.domain.UserData
 import com.alexjlockwood.twentyfortyeight.repository.GameRepository
@@ -16,7 +17,6 @@ private const val VERSION = "1.0.0"
 private const val AUTHOR = "alexjlockwood"
 
 fun main() = application {
-    // Initialize Bright Data SDK (Windows only)
     val brightSdk = createBrightDataSdk()
     if (brightSdk.isSupported()) {
         println("Bright Data SDK is supported on this platform")
@@ -28,10 +28,10 @@ fun main() = application {
     val filesDir = AppDirsFactory.getInstance().getUserDataDir(PACKAGE_NAME, VERSION, AUTHOR).toPath()
     with(FileSystem.SYSTEM) { if (!exists(filesDir)) createDirectories(filesDir) }
     val store = storeOf(file = filesDir.resolve(USER_DATA_FILE_NAME), default = UserData.EMPTY_USER_DATA)
+    val analytics = createAppAnalytics(brightSdk)
 
     Window(
         onCloseRequest = {
-            // Clean up Bright Data SDK on exit
             brightSdk.close()
             exitApplication()
         },
@@ -39,8 +39,8 @@ fun main() = application {
     ) {
         App(
             repository = GameRepository(store),
-            brightDataSdk = brightSdk
+            brightDataSdk = brightSdk,
+            analytics = analytics
         )
     }
 }
-

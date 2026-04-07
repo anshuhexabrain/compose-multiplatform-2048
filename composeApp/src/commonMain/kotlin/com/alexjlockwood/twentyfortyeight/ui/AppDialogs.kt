@@ -188,17 +188,14 @@ fun DisableAccessDialog(
  */
 @Composable
 fun SettingsDialog(
-    brightDataSdk: BrightDataSdk,
+    currentChoice: ConsentChoice,
+    onEnableRequested: () -> Unit,
+    onDisableConfirmed: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    var currentChoice by remember { mutableStateOf(brightDataSdk.getConsentChoice()) }
     var showDisableDialog by remember { mutableStateOf(false) }
     val isEnabled = currentChoice == ConsentChoice.OPTED_IN
     val learnMoreUrl = "https://bright-sdk.com/users#learn-more-about-bright-sdk-web-indexing"
-
-    LaunchedEffect(Unit) {
-        currentChoice = brightDataSdk.getConsentChoice()
-    }
 
     Dialog(onDismissRequest = onDismiss) {
         Card(
@@ -261,7 +258,7 @@ fun SettingsDialog(
                                 checked = isEnabled,
                                 onCheckedChange = { checked ->
                                     if (checked) {
-                                        brightDataSdk.showConsentDialog()
+                                        onEnableRequested()
                                     } else {
                                         showDisableDialog = true
                                     }
@@ -340,19 +337,15 @@ fun SettingsDialog(
                 showDisableDialog = false
             },
             onDisable = {
-                brightDataSdk.optOut()
-                currentChoice = ConsentChoice.OPTED_OUT
+                onDisableConfirmed()
                 showDisableDialog = false
             }
         )
     }
 
-    LaunchedEffect(Unit) {
-        brightDataSdk.setChoiceChangeCallback { choice ->
-            currentChoice = choice
-        }
-    }
 }
+
+
 
 
 
