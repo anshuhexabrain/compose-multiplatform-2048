@@ -1,0 +1,15 @@
+"appbuild"
+{
+    "appid" "4631210"
+    "desc" "Windows test build"
+    "buildoutput" "C:\Users\anshu\Downloads\steamworks_sdk_165\sdk\tools\ContentBuilder\output"
+    "contentroot" "D:\Hexabrain\Other\compose-multiplatform-2048\composeApp\build\compose\binaries\main\app\2048 Hexa Game - Merge, Match, Master the Puzzle"
+    "setlive" ""
+    "preview" "0"
+    "local" ""
+
+    "depots"
+    {
+        "4631211" "steam_depot_build_4631211.vdf"
+    }
+}

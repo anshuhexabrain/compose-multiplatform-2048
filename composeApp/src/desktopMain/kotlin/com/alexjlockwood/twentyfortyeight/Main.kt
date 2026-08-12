@@ -1,6 +1,9 @@
 package com.alexjlockwood.twentyfortyeight
 
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPlacement
+import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import com.alexjlockwood.twentyfortyeight.analytics.createAppAnalytics
 import com.alexjlockwood.twentyfortyeight.brightsdk.createBrightDataSdk
@@ -35,6 +38,8 @@ fun main() = application {
             brightSdk.close()
             exitApplication()
         },
+        icon = painterResource("icons/app-icon.png"),
+        state = WindowState(placement = WindowPlacement.Maximized),
         title = "2048 Hexa Game - Merge, Match, Master the Puzzle",
     ) {
         App(
@@ -44,3 +49,4 @@ fun main() = application {
         )
     }
 }
+

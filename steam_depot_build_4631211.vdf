@@ -1,0 +1,12 @@
+"DepotBuildConfig"
+{
+    "DepotID" "4631211"
+    "contentroot" "D:\Hexabrain\Other\compose-multiplatform-2048\composeApp\build\compose\binaries\main\app\2048 Hexa Game - Merge, Match, Master the Puzzle"
+
+    "FileMapping"
+    {
+        "LocalPath" "*"
+        "DepotPath" "."
+        "recursive" "1"
+    }
+}
